@@ -1,0 +1,24 @@
+# Layer 1: Telling Docker to use the node:17-alpine image as the base image for the container.
+FROM node:lts-alpine as build
+
+# Layer 2: Telling Docker to create a directory called `app` in the container and set it as the working directory.
+WORKDIR /app
+
+# Layer 3: Copying the package.json file from the root of the project to the `app` directory in the container.
+COPY package.json .
+
+# Layer 4: Installing the dependencies listed in the package.json file.
+RUN npm install
+
+# Layer 5: Copying all the files from the root of the project to the `app` directory in the container.
+COPY . .
+
+RUN npm run build
+
+FROM nginx
+
+# Layer 6: Telling Docker that the container will listen on port 3000.
+EXPOSE 3000
+
+COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
+COPY --from=builder /app/build /usr/share/nginx/html
