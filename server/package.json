@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "build": "npm run rmdir dist && npx tsc",
+    "start": "node dist/index.js",
+    "dev": "nodemon src/index.ts",
+    "rmdir": "node -e \"var fs = require('fs'); try{process.argv.slice(1).map((fpath) => fs.rmdirSync(fpath, { recursive: true }))}catch(err){console.log(`Dist not found`)}; process.exit(0);\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -10,8 +14,20 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@prisma/client": "^5.14.0",
+    "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "mongoose": "^8.4.0"
+  },
+  "devDependencies": {
+    "@types/body-parser": "^1.19.5",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.12.12",
+    "nodemon": "^3.1.2",
+    "prisma": "^5.14.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5"
   }
 }
