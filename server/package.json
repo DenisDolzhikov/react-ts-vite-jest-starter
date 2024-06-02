@@ -9,10 +9,10 @@
     "rmdir": "node -e \"var fs = require('fs'); try{process.argv.slice(1).map((fpath) => fs.rmdirSync(fpath, { recursive: true }))}catch(err){console.log(`Dist not found`)}; process.exit(0);\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["react", "nodejs", "express", "typescript", "mongodb", "prisma", "docker", "nginx", "jest", "redux-toolkit", "rest api"],
+  "author": "Denis Dolzhikov",
   "license": "ISC",
-  "description": "",
+  "description": "Starter fullstack (MERN) configuration for my future pet projects",
   "dependencies": {
     "@prisma/client": "^5.14.0",
     "cors": "^2.8.5",
