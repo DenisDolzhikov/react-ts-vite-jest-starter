@@ -3,14 +3,22 @@ import dotenv from 'dotenv';
 dotenv.config();
 import cors from 'cors';
 import bodyParser, { OptionsJson } from 'body-parser';
-// import prisma from './configs/prisma.config';
+import compression from 'compression';
+import helmet from 'helmet';
+import { rateLimit } from 'express-rate-limit';
 import { PrismaClient } from '@prisma/client';
 
 import { router as postRouter } from './routes/post.router';
+import { fileURLToPath } from 'url';
 
 const app: Application = express();
 const PORT: number = process.env.PORT ? parseInt(process.env.PORT, 10) : 5000;
 const prisma = new PrismaClient();
+
+const limiter = rateLimit({
+  windowMs: 1 * 60 * 1000,
+  max: 80,
+});
 
 app.use(express.static(__filename));
 app.use(express.urlencoded({ extended: true }));
@@ -18,6 +26,10 @@ app.use(express.json());
 app.use(cors());
 app.use(bodyParser.json({ limit: '30mb', type: 'application/json' }));
 app.use(bodyParser.urlencoded({ limit: '30mb', extended: true }));
+app.use(compression());
+app.use(helmet());
+app.use(helmet.crossOriginResourcePolicy({ policy: 'cross-origin'}));
+app.use(limiter);
 
 //PRISMA TEST
 
